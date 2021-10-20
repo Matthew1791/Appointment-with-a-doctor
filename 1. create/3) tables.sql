@@ -19,8 +19,8 @@ create table hospitals(
     id_hospital number primary key,
     name varchar2(100),
     id_med_organization number references medical_organizations(id_med_organizations)
-
 );
+
 create table specialities(
     id_speciality number primary key,
     name varchar2(100),
@@ -29,12 +29,13 @@ create table specialities(
 
 create table years(
     id_year number primary key,
-    name varchar2(100),
+    name number,
     id_speciality number references specialities(id_speciality)
 );
+
 create table gender(
     id_gender number primary key,
-    name varchar2(100),
+    name number,
     id_speciality number references specialities(id_speciality)
 );
 
@@ -53,12 +54,15 @@ create table hospital_tipe(
 create table doctors(
     id_doctor number primary key,
     name varchar2(100),
-    id_hospital number references hospitals(id_hospital)
+    id_hospital number references hospitals(id_hospital),
+
 );
+alter table doctors
+add speciality number references specialities(id_speciality);
 
 create table reception_area(
     id_reception_area number primary key,
-    name varchar2(100),
+    name number,
     id_doctor number references doctors(id_doctor)
 );
 
@@ -69,10 +73,9 @@ create table doctor_degree(
 );
 
 create table registration_coupons(
+    status char(1),
     id_registration_coupon number primary key,
-    status boolean,
     id_doctor number references doctors(id_doctor)
-
 );
 
 create table accounts(
@@ -84,11 +87,11 @@ create table patients(
     id_patient number primary key,
     first_name varchar2(100),
     last_name varchar2(100),
-    middle_name varchar2(100),
+    middle_name varchar2(100) null,
     date_of_birth date,
     document varchar2(100),
     gender number references gender(id_gender),
-    telephone_number int(100),
+    telephone_number integer null,
     id_reception_area number references reception_area(id_reception_area),
     id_account number references accounts(id_account)
 );
@@ -99,4 +102,4 @@ create table registers(
 );
 
 
---doctor degre
+
